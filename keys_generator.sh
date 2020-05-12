@@ -13,7 +13,8 @@ fi
 
 for ((i=1;i<=COUNT;i++)); do
     echo "Generating key number ${i}"
-    ssh-keygen -t rsa -b 4096 -q -a 1000 -N "${PASS}" -f "./id_rsa_${i}.key"
+    openssl genrsa -aes256 -passout pass:$PASS -out "./id_rsa_${i}.pem" 16384
+    openssl rsa -in "./id_rsa_${i}.pem" -passin pass:$PASS -pubout -out "./id_rsa_${i}.pem.pub"
 done
 
 
