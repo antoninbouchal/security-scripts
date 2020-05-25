@@ -32,24 +32,45 @@ cd keys
 ./keys_generator.sh
 ```
 
-### 2. Encrypt target file
+### 2. Add keys path to .bash_profile
+
+Because we don't wanna think always about place with keys, you can add ENV variable to .bash_profile with keys path.
+
+```
+export SECURITY_SCRIPTS_KEYS_PATH=/my/secret/path/to/keys
+```
+
+> Note: Don't use paths with spaces and relative path with (~). Script works in different process and can have problems
+with it.
+
+
+### 3. Create shortcuts for scripts
+
+Run commands:
+
+```
+ln ./path/to/repo/file_encryptor.sh /usr/local/bin/encrypt
+ln ./path/to/repo/file_decryptor.sh /usr/local/bin/decrypt
+```
+
+### 4. Encrypt target file
 
 With this
 
 ```
-./file_encryptor.sh -k ./keys -f /path/to/target/file
+encrypt -f /path/to/target/file
 ```
 
 you generate synchronous key for file encryption. Encrypt the file with it. After that
 encrypt this key with randomly chosen public key in `keys` directory and archive encryped
 file with encrypted key to TAR GZIP archive.
 
-### 3. Decrypt target archive
+### 5. Decrypt target archive
 
 With command
 
 ```
-./file_decryptor.sh -k ./keys -f /path/to/target/archive.tar.gz
+decrypt -f /path/to/target/archive.tar.gz
 ```
 
-Decrypt archive to original file.
+decrypt archive to original file.
